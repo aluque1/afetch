@@ -10,6 +10,8 @@ host="$(hostname)"
 kernel="$(uname -sr)"
 shell="$(basename "${SHELL}")"
 dir=$(dirname "$0")
+desktop_env=$DESKTOP_SESSION
+cpu_model=$(lscpu | grep 'Model name:' | awk -F: '{ print $2 }' | xargs)
 
 ## DEFINE COLORS
 
@@ -28,8 +30,8 @@ if [ -x "$(command -v tput)" ]; then
 fi
 
 # you can change these
-lc="${reset}${bold}${green}"        # labels
-nc="${reset}${bold}${green}"        # user and hostname
+lc="${reset}${bold}${blue}"        # labels
+nc="${reset}${bold}${red}"        # user and hostname
 ic="${reset}"                       # info
 c0="${reset}${bold}${green}"        # first color
 c1="${reset}${green}"               # second color
@@ -49,6 +51,7 @@ show_help() {
     echo "  ./afetch artwork  	# Displays ASCII art from artwork.txt"
 }
 
+
 # Check if -h or --help is passed as the first argument
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
     show_help
@@ -61,10 +64,13 @@ if [ $# -ne 0 ]
 	echo
 	cat $dir/$1
 fi
+
 cat << EOF
 ${nc} ${USER}${ic}@${nc}${host}${reset}
 ${lc} OS:        ${ic}${os}${reset}
+${lc} CPU:       ${ic}${cpu_model}${reset}
 ${lc} KERNEL:    ${ic}${kernel}${reset}
 ${lc} SHELL:     ${ic}${shell}${reset}
-
+${lc} DE:        ${ic}${desktop_env}${reset}
 EOF
+echo
