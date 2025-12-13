@@ -11,9 +11,9 @@ kernel="$(uname -sr)"
 shell="$(basename "${SHELL}")"
 dir=$(dirname "$0")
 desktop_env=$(echo $XDG_CURRENT_DESKTOP)
-desktop_env="${desktop_env#*: }"   # Remove everything up to the first colon and space
-desktop_env="${desktop_env%%:*}"  # Remove everything from the first colon onward
-cpu_model=$(lscpu | grep 'Model name:' | awk -F: '{ print $2 }' | xargs)
+desktop_env="${desktop_env#*: }"
+desktop_env="${desktop_env%%:*}"
+cpu_model=$(lscpu | awk -F': ' '/Model name/ {print $2}' | xargs)
 
 ## DEFINE COLORS
 
