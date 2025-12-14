@@ -13,7 +13,7 @@ dir=$(dirname "$0")
 desktop_env=$(echo $XDG_CURRENT_DESKTOP)
 desktop_env="${desktop_env#*: }"
 desktop_env="${desktop_env%%:*}"
-cpu_model=$(lscpu | awk -F': ' '/Model name/ {print $2}' | xargs)
+cpu_model=$(grep -m 1 "model name" /proc/cpuinfo | cut -d: -f2 | sed 's/^[ \t]*//g')
 
 ## DEFINE COLORS
 
